@@ -1,6 +1,9 @@
-﻿internal partial class Program
+﻿using Demo.Interfaces;
+using Demo.Models;
+
+internal partial class Program
 {
-	class Gift: IMoney
+	class Gift : IMoney
 	{
 		public decimal Value { get; }
 		public Currency Currency { get; }
