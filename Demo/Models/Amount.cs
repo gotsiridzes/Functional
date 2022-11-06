@@ -11,4 +11,6 @@ class Amount
 		Currency = currency
 			?? throw new ArgumentNullException($"'{nameof(currency)}' cannot be null.");
 	}
+	public override string ToString() => $"{this.Value} {this.Currency}";
+
 }

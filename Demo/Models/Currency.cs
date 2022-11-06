@@ -9,4 +9,6 @@ class Currency
 			? symbol
 			: throw new ArgumentNullException($"'{nameof(symbol)}' cannot be null or empty.", nameof(symbol));
 	}
+
+	public override string ToString() => this.Symbol;
 }

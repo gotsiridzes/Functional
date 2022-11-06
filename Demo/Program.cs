@@ -1,22 +1,11 @@
-﻿using Demo.Interfaces;
+﻿using Demo.Behaviors;
+using Demo.Extensions;
+using Demo.Interfaces;
 using Demo.Models;
+using System;
 
 internal partial class Program
 {
-	class Gift : IMoney
-	{
-		public decimal Value { get; }
-		public Currency Currency { get; }
-		public DateTime ValidBefore { get; }
-
-		public Gift(decimal value, Currency currency, DateTime validBefore)
-		{
-			Value = value;
-			Currency = currency ?? throw new ArgumentNullException($"'{nameof(currency)}' cannot be null.");
-			ValidBefore = validBefore;
-		}
-
-	}
 	static (IMoney final, Amount added) Add(IMoney money, Amount amount, DateOnly at)
 	{
 		switch (money)
@@ -33,10 +22,18 @@ internal partial class Program
 		}
 	}
 
+	static void PrintPrices(Product product, int from, int to) => Enumerable.Range(from, to - from + 1)
+			.Select(quantity => (quantity, totalPrice: product.Buy(quantity).TotalPrice))
+			.Select(tuple => $"{tuple.quantity}\t{tuple.totalPrice}")
+			.Join(Environment.NewLine)
+			.WriteLine();
+
 	private static void Main(string[] args)
 	{
+		var product = new Product("laptop", new Amount(1500m, new Currency("USD")));
 
+		PrintPrices(product, 1, 10);
 
-		Console.WriteLine("Hello, World!");
+		//Console.WriteLine("Hello, World!");
 	}
 }
