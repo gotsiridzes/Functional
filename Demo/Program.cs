@@ -21,12 +21,6 @@ internal partial class Program
 		}
 	}
 
-	//static void PrintPrices(Product product, int from, int to) => Enumerable.Range(from, to - from + 1)
-	//		.Select(quantity => (quantity, totalPrice: product.Buy(quantity).TotalPrice))
-	//		.Select(tuple => $"{tuple.quantity}\t{tuple.totalPrice}")
-	//		.Join(Environment.NewLine)
-	//		.WriteLine();
-
 	static void PrintPrices(int from, int to, Func<int, Amount> priceFor) =>
 		Enumerable.Range(from, to - from + 1)
 			.Select(quantity => (quantity, price: priceFor(quantity)))
@@ -40,7 +34,6 @@ internal partial class Program
 			new Product("laptop",
 				new Amount(1500m, new Currency("USD")));
 
-		//PrintPrices(1, 10, quantity => product.Buy(quantity).TotalPrice);
 		PrintPrices(1, 10, product.TotalPriceCalculator());
 	}
 }
