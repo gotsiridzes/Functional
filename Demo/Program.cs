@@ -2,7 +2,6 @@
 using Demo.Extensions;
 using Demo.Interfaces;
 using Demo.Models;
-using System;
 
 internal partial class Program
 {
@@ -22,18 +21,28 @@ internal partial class Program
 		}
 	}
 
-	static void PrintPrices(Product product, int from, int to) => Enumerable.Range(from, to - from + 1)
-			.Select(quantity => (quantity, totalPrice: product.Buy(quantity).TotalPrice))
-			.Select(tuple => $"{tuple.quantity}\t{tuple.totalPrice}")
+	//static void PrintPrices(Product product, int from, int to) => Enumerable.Range(from, to - from + 1)
+	//		.Select(quantity => (quantity, totalPrice: product.Buy(quantity).TotalPrice))
+	//		.Select(tuple => $"{tuple.quantity}\t{tuple.totalPrice}")
+	//		.Join(Environment.NewLine)
+	//		.WriteLine();
+
+	static void PrintPrices(int from, int to, Func<int, Amount> priceFor) =>
+		Enumerable.Range(from, to - from + 1)
+			.Select(quantity => (quantity, price: priceFor(quantity)))
+			.Select(tuple => $"{tuple.quantity}\t{tuple.price}")
 			.Join(Environment.NewLine)
 			.WriteLine();
 
+
+
 	private static void Main(string[] args)
 	{
-		var product = new Product("laptop", new Amount(1500m, new Currency("USD")));
+		var product = 
+			new Product("laptop", 
+				new Amount(1500m, new Currency("USD")));
 
-		PrintPrices(product, 1, 10);
-
-		//Console.WriteLine("Hello, World!");
+		//PrintPrices(1, 10, quantity => product.Buy(quantity).TotalPrice);
+		PrintPrices(1, 10, product.TotalPriceCalculator());
 	}
 }
