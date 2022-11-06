@@ -34,12 +34,10 @@ internal partial class Program
 			.Join(Environment.NewLine)
 			.WriteLine();
 
-
-
 	private static void Main(string[] args)
 	{
-		var product = 
-			new Product("laptop", 
+		var product =
+			new Product("laptop",
 				new Amount(1500m, new Currency("USD")));
 
 		//PrintPrices(1, 10, quantity => product.Buy(quantity).TotalPrice);
